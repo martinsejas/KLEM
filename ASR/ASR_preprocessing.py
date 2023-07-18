@@ -16,49 +16,78 @@ def load_files(data_path='./Data/*.wav'):
     return audio_files, labels
 
 
-def slice_audio(audio, partitions, scaled_sr):
+def slice_audio(audio, partitions, sr_scaled):
     my_list = [None] * partitions
     for i in range(partitions):
-        my_list[i] = audio[i * slice_audio : (i + 1) * slice_audio]
+        my_list[i] = audio[i * sr_scaled : (i + 1) * sr_scaled]
     return np.array(my_list)
 
+# Keep these commented out for now, as I will optimize the code later to make it more easily readable
+# def load_and_slice_audio(file_path, slice_duration=3):
+#     audio, sr = librosa.load(file_path)
+#     partitions = audio.shape[0] // (sr * slice_duration)
+#     scaled_sr = sr * slice_duration
+#     audios = slice_audio(audio, partitions=partitions, sr_scaled=scaled_sr)
+#     return audios, sr
 
-def load_and_slice_audio(file_path, slice_duration=3):
-    audio, sr = librosa.load(file_path)
-    partitions = audio.shape[0] // (sr * slice_duration)
-    scaled_sr = sr * slice_duration
-    audios = slice_audio(audio, partitions=partitions, scaled_sr=scaled_sr)
-    return audios, sr
+
+# def retrieve_features_and_labels(audios, sr: int):
+#     features = []
+
+#     for aud in audios:
+#         mfcc = librosa.feature.mfcc(y=aud,
+#                                     sr=sr,
+#                                     n_mfcc=13,
+#                                     hop_length=512,
+#                                     n_mels=26)
+#         features.append(mfcc)
+#     return features
+
+# def mel_freq(data_dir='./Data/') -> (np.ndarray, np.ndarray):
+#     features = []
+#     labels = []
+    
+#     for class_label in os.listdir(data_dir):
+#         class_dir = os.path.join(data_dir, class_label)
+#         try:
+#             for filename in os.listdir(class_dir):
+#                 file_path = os.path.join(class_dir, filename)
+                
+#                 audio, sr = load_and_slice_audio(file_path)
+                
+#                 features.extend(retrieve_features_and_labels(audio, sr))
+#                 labels.append(class_label)
+#         except FileNotFoundError as e:
+#             print(e)
+#     return np.array(features), np.array(labels)
 
 
-def retrieve_features_and_labels(audios, sr: int):
-    features = []
-
-    for aud in audios:
-        mfcc = librosa.feature.mfcc(y=aud,
-                                    sr=sr,
-                                    n_mfcc=13,
-                                    hop_length=512,
-                                    n_mels=26)
-        features.append(mfcc)
-    return features
-
-def mel_freq(data_dir='./Data/') -> (np.ndarray, np.ndarray):
+def mel_freq(data_dir='./Data/'):
     features = []
     labels = []
     
-    for class_label in os.listdir(data_dir):
-        class_dir = os.path.join(data_dir, class_label)
-        try:
-            for filename in os.listdir(class_dir):
-                file_path = os.path.join(class_dir, filename)
+    for audio_file in os.listdir(data_dir)[1:]:
+        label = audio_file.split('.')[0]
+        file_path = os.path.join(data_dir, audio_file)
+        # Load the audio file
+        audio, sr = librosa.load(file_path)
+        partitions = audio.shape[0] // (sr * 3)
+        sr_sliced = sr * 3
                 
-                audio, sr = load_and_slice_audio(file_path)
-                
-                features.extend(retrieve_features_and_labels(audio, sr))
-                labels.append(class_label)
-        except FileNotFoundError as e:
-            print(e)
+        audios = slice_audio(audio,
+                            partitions=partitions,
+                            sr_scaled=sr_sliced)
+
+        for aud in audios:
+            # Extract MFCC features
+            mfcc = librosa.feature.mfcc(y=aud,
+                                        sr=sr,
+                                        n_mfcc=13,
+                                        hop_length=512,
+                                        n_mels=26)
+            # Append the features and label to the lists
+            features.append(mfcc)
+            labels.append(label)
     return np.array(features), np.array(labels)
 
 
