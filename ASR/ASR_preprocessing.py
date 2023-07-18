@@ -4,6 +4,9 @@ import numpy as np
 import pandas as pd
 from glob import glob
 
+
+# The data files path should be like './Data/user/*.wav'
+# so the label of each file should be like 'user'
 def load_files(data_path='./Data/*.wav'):
     audio_files = glob(data_path)
     labels = []
