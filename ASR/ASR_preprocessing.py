@@ -101,7 +101,24 @@ def get_mel_data(data_dir='./Data/'):
     features_2d = np.reshape(features,
                              (num_samples, num_frames * num_mfcc))
     
-    label_map = {x: i for i, x in enumerate(labels)}
-    labels = [label_map[x] for x in labels]
+    label_map = {'NonHuman': 0, 'Human': 1}
+    labels = np.array(label_map['NonHuman'] if 'NonSpeech' in value else label_map['Human'] for value in labels)
     
     return features_2d, labels
+
+
+"""
+This is the same as get_mel_data, but for the inference data by default it's in the inference folder.
+"""
+def get_mel_infer_data(data_dir='./inference/'):
+    features_, labels_ = mel_freq(data_dir)
+    
+    num_samples = features_.shape[0]
+    num_mfcc = features_[0].shape[0]
+    num_frames = features_[0].shape[1]
+
+    features_inf_2d = np.reshape(features_, (num_samples, num_frames * num_mfcc))
+    
+    label_map = {'NonHuman': 0, 'Human': 1}
+    labels_inf = np.array([label_map['NonHuman'] if 'NonSpeech' in value else label_map['Human'] for value in labels_])
+    return features_inf_2d, labels_inf
