@@ -16,5 +16,6 @@ def build_model(n_estimators=500,
 
 def training(model, Xtrain, ytrain):
     history = model.fit(Xtrain, ytrain)
+    print('Saving the model ...')
     model.save('RandomForestClassifer.h5')
     return model, history
