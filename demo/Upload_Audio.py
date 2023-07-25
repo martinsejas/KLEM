@@ -4,7 +4,7 @@ from speechbrain.pretrained import SepformerSeparation as separator
 import librosa
 import speech_recognition as speech_recon
 import numpy as np
-from audiorecorder import audiorecorder
+
 
 DATA_PATH="data/"
 
@@ -38,12 +38,8 @@ if audio_file is not None:
     
     enhanced_data = enhanced_audio[:,:].detach().cpu().squeeze()
     
-    
-    
-   
-    
     sf.write("data/clean.wav",enhanced_data,samplerate=8000)
-    #sf.write("data/clean.wav",enhanced_data_resampled,samplerate=16000)
+  
     st.audio("data/clean.wav")
     
     y, sr = librosa.load("data/clean.wav")
