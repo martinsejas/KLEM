@@ -3,6 +3,28 @@ import pyaudio
 import wave
 import keyboard
 import speech_recognition as speech_recon
+import openai
+import datetime
+
+openai.api_key = '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'
+
+# def your_script(generated_text):
+#     generated_text = "Hello Chatgpt tell me a joke about AI"
+#     return generated_text
+
+messages = [{"role": "system", "content": "You are a helpful assistant."}]
+
+
+
+def send_to_gpt(text):
+    global messages
+    
+    messages.append({"role": "user", "content": text})
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", 
+        messages= messages
+    )
+    return response['choices'][0]['message']['content']
 
 SAMPLING_RATE = 44100
 CHUNK_SIZE = 1024
@@ -36,7 +58,6 @@ while keyboard.is_pressed('r'):
     my_bar.progress(count, text="Recording (Speak Now!)")
     
 
-print("Recording finished.")
 
 stream.stop_stream()
 stream.close()
@@ -53,7 +74,7 @@ wf.close()
 
 if count > 0:
     st.audio(filename)
-    st.subheader("Transcription")
+    st.subheader("Prompt")
     r = speech_recon.Recognizer()
 
     with speech_recon.AudioFile(filename) as source:
@@ -63,4 +84,13 @@ if count > 0:
             final_text = r.recognize_google(audio_data=audio_text)
         
         st.write(final_text)
-           
+        chat_gpt_response = send_to_gpt(final_text)
+        messages.append( {"role": "system","content":chat_gpt_response})
+        
+        st.subheader("Chatbot")
+        st.write(chat_gpt_response)
+       
+    with open("chatlogs/main_log.txt","a") as log:
+        log.write(f"You|{final_text}£")
+        log.write(f"Chat Gpt|{chat_gpt_response}£")
+      
