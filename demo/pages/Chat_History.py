@@ -18,12 +18,13 @@ for i,item in enumerate(history):
     
     #if YOU marker
     if(i%2 == 0):
-        markdown_content += f"""<div style="text-align: right"><strong>{text[0]}</strong></div> \n"""
-        markdown_content += f"""<div style="text-align: right"">{text[-1]}</div> \n\n\n"""
+       
+        if len(text[-1]) > 1:
+            st.chat_message("user").write(text[-1])
 
     else:
-        markdown_content += f"""<div style="text-align: left"><strong>{text[0]}</strong></div> \n"""
-        markdown_content += f"""<div style="text-align: left;color:grey">{text[-1]}</div> \n\n\n"""
-st.markdown(markdown_content,unsafe_allow_html=True)
-            
+        st.chat_message("assistant").write(text[-1])
+ 
+#st.markdown(markdown_content,unsafe_allow_html=True)
+
         
