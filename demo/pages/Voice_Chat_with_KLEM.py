@@ -4,7 +4,7 @@ import wave
 import keyboard
 import speech_recognition as speech_recon
 import openai
-
+from PIL import Image
 
 openai.api_key = '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'
 
@@ -21,22 +21,26 @@ From there, if you are asked anything about the video, you will provide clear ex
 
 """
 
+
+avatar = Image.open("data/logo.png")
+user_avatar = Image.open("data/user_avatar.png")
+
 messages = [{"role": "system", "content": KLEM_PROMPT}]
 
 
-# def send_to_gpt(text):
-#     global messages
+def send_to_gpt(text):
+    global messages
     
-#     messages.append({"role": "user", "content": text})
-#     response = openai.ChatCompletion.create(
-#         model="gpt-3.5-turbo", 
-#         messages= messages
-#     )
-#     return response['choices'][0]['message']['content']
+    messages.append({"role": "user", "content": text})
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", 
+        messages= messages
+    )
+    return response['choices'][0]['message']['content']
 
 
 
-st.markdown("<h3 style='text-align: center; color: blue;'>KLEM - Your Ultimate Video Insight Companion!</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center;'>KLEM - Your Ultimate Video Insight Companion!</h3>", unsafe_allow_html=True)
 st.write("\n\n\n")
 
 #CHAT HISTORY
@@ -67,12 +71,12 @@ try:
     
         if(i%2 == 0):
             if len(text[-1]) > 1:
-                st.chat_message("user").write(text[-1])
+                st.chat_message("ActionLearning",avatar=user_avatar).write(text[-1])
 
         else:
-            st.chat_message("assistant").write(text[-1])
+            st.chat_message("KLEM",avatar=avatar).write(text[-1])
 except:
-    st.chat_message("assistant").write(KLEM)
+    st.chat_message("KLEM",avatar=avatar).write(KLEM)
     st.write("\n\n\n\n\n\n")
 #=======================================================================
         
@@ -124,27 +128,32 @@ wf.close()
 if count > 0:
     # st.audio(filename)
     r = speech_recon.Recognizer()
+    final_text = ""
 
     with speech_recon.AudioFile(filename) as source:
         audio_text = r.listen(source)
         
-        with st.spinner("Thinking..."):
-            final_text = r.recognize_google(audio_data=audio_text)
+    with st.spinner("Thinking..."):
+        final_text = r.recognize_google(audio_data=audio_text)
+        
+    #st.chat_message("user").write(final_text) 
+    #prompt = st.chat_message("user").write(final_text)
+    #st.write(final_text)
+        chat_gpt_response = send_to_gpt(final_text)
+        messages.append( {"role": "system","content":chat_gpt_response})
+        
+        
+        with open("chatlogs/main_log.txt","a") as log:
+            log.write(f"You|{final_text}£")
+            log.write(f"Chat Gpt|{chat_gpt_response}£")
             
-        #st.chat_message("user").write(final_text) 
-        #prompt = st.chat_message("user").write(final_text)
-        #st.write(final_text)
-            chat_gpt_response = send_to_gpt(final_text)
-            messages.append( {"role": "system","content":chat_gpt_response})
+        with open("chatlogs/current_chat.txt","a") as written_chat:
+            written_chat.write(f"You|{final_text}£")
+            written_chat.write(f"Chat Gpt|{chat_gpt_response}£")
             
+        
             
-            with open("chatlogs/main_log.txt","a") as log:
-                log.write(f"You|{final_text}£")
-                log.write(f"Chat Gpt|{chat_gpt_response}£")
-                
-            with open("chatlogs/current_chat.txt","a") as written_chat:
-                written_chat.write(f"You|{final_text}£")
-                written_chat.write(f"Chat Gpt|{chat_gpt_response}£")
+    
             
-            st.experimental_rerun()
+        st.experimental_rerun()
         
