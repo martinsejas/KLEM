@@ -1,4 +1,5 @@
 # ActionLearningAIS4
+
 Repository for ActionLearning Group 4
 
 
@@ -50,4 +51,5 @@ After training, the model was evaluated on a validation set. The results are as 
 
 - Model Accuracy: 92.41%
 - Model Loss: 0.22
+
 
