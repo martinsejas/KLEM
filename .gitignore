@@ -161,5 +161,13 @@ cython_debug/
 
 .DS_Store
 ESPnet_SSE_Demostration.ipynb
-/notebooks
-11epoch.pth
+notebooks/
+/11epoch.pth
+experiment.ipynb
+youtube/
+data/
+*.wav
+demo/demo/
+results/
+transcription/
+ESPnet_SSE_Demonstration.ipynb

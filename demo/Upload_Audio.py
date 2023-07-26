@@ -69,15 +69,6 @@ if audio_file is not None:
         response = requests.post(API_URL_TRANS, headers=headers, json=payload)
         return response.json()
     
-    # API_URL_2_SPEECH = "https://api-inference.huggingface.co/models/facebook/tts_transformer-fr-cv7_css10"
-
-    # def query_2_speech_fr(filename):
-    #     with open(filename, "rb") as f:
-    #         data = f.read()
-    #     response = requests.post(API_URL_2_SPEECH, headers=headers, json=data)
-    #     return response.json()
-
-# output = query({"inputs": "This is a test"})
     
     st.subheader("Transcription")
     r = speech_recon.Recognizer()
