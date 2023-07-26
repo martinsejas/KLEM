@@ -4,6 +4,7 @@ import Upload_Audio as UA
 import os
 import soundfile as sf
 import speech_recognition as speech_recon
+import json
 
 
 def download_youtube_audio(youtube_url):
@@ -29,9 +30,16 @@ def transcribe_audio_segments():
                 transpcription += ' ' + final_text
         st.session_state.video_dict['transcription'] = transpcription
         st.text('Transcription Has Generated')
-        st.write(transpcription)
+        with st.expander("Transcription"):
+            st.write(transpcription)
+
+
+def save_to_txt(data: dict, name: str, path: str = 'youtube'):
+    with open(f"{path}/{name}.txt", "w") as f:
+        json.dump(data, f)
 
 if __name__ == "__main__":
+    OUTPUT_PATH = 'youtube/'
     st.title('Paste your video link here:')
     youtube_url = st.text_input(label='Youtube Link')
 
@@ -55,12 +63,19 @@ if __name__ == "__main__":
             _, paths = gsa.segment_audio(audio_path, audio_name)
             st.session_state.video_dict['clip_paths'] = sort_clip_paths_by_order(paths)
             message.text('Audio Has Segmented')
-
+    
     # Generate the transcription
+    output_name = st.session_state.video_dict['audio_name']
+    data = st.session_state.video_dict['transcription']
     if st.button('Generate the Transcription'):
         if 'clip_paths' in st.session_state.video_dict:
             transcribe_audio_segments()
-
+        save_to_txt(data, output_name)
+    st.download_button(label='Download Transcription',
+                        data=data,
+                        file_name=output_name+'.txt',
+                        mime='application/json')
+    # st.session_state.clear()
     st.divider()
 
 
