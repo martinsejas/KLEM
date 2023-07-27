@@ -138,7 +138,19 @@ if __name__ == "__main__":
             with open("chatlogs/current_chat.txt","a") as first_chat:
                 first_chat.write(f"You|Analyze this video for me: {st.session_state.video_dict['audio_name']}£")
                 first_chat.write(f"Chat Gpt|All analyzed! Ask me anything!£")
-                pass
+            with open("chatlogs/current_chat.txt","r") as chat:
+                history = chat.read()
+            history = history.split("£")
+
+            for i,item in enumerate(history):
+                text = item.split("|")
+            
+                if(i%2 == 0):
+                    if len(text[-1]) > 1:
+                        st.chat_message("ActionLearning",avatar=user_avatar).write(text[-1])
+
+                else:
+                    st.chat_message("KLEM",avatar=avatar).write(text[-1])
                 
         
         SAMPLING_RATE = 44100
