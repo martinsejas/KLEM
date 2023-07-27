@@ -51,7 +51,7 @@ def segment_audio(audio_path, audio_name, min_silence_len=700, silence_thresh=-5
     output_directory = os.path.join(output_path, f'{audio_name}_clips')
     output_paths = []
     output_directory = output_directory.replace("\\","/")
-    display_path = output_directory.replace("?", "")
+    display_path = output_directory.replace("?", "").replace("|","")
     print("Display path:", display_path)   
     output_directory = display_path
     
@@ -123,6 +123,6 @@ def transcribe_audio_segments():
 
 def save_to_txt(data: dict, name: str, path: str = VIDEO_OUTPUT_PATH):
     path = path.replace("\\","/")
-    name = name.replace("?", "")
+    name = name.replace("?", "").replace("|","")
     with open(f"{path}/{name}.json", "w") as f:
         json.dump(data, f)
