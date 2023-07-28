@@ -38,45 +38,41 @@ From there, if you are asked anything about the video, you will provide clear ex
 
 
 KLEM= """
-**KLEM - Your AI Video Mentor**
 
-YUM! Thanks for the video, I am **KLEM**, your AI Mentor and the gateway to a world of knowledge within YouTube videos!
+#### Meet KLEM - Your AI Video Mentor!
 
-As we speak I'm analyzing the contents of the video you shared with me.
+YUM! I'm **KLEM**, your AI Mentor, and I'm obsessed with YouTube knowledge!
 
 **How it works:**
 
-1. **Video Learning:** Once you share a YouTube video with me, I'll start analyzing its contents in real-time.
+1. **Video Learning:** Share a YouTube video, and I'll analyze it in real-time.
 
-1. **Press "r" to Ask:** Instead of watching the entire video and getting lost in the details, you can simply hold the **r** key and ask me anything about the video.
+2. **Press "r" to Ask:** Hold "r" and ask me anything about the video.
 
-2. **Clear Explanations:** I'll provide you with concise and clear explanations, breaking down complex concepts into easily understandable terms.
+3. **Clear Explanations:** I'll give concise explanations in simple terms.
 
-3. **Save Time and Effort:** No need to waste time on lengthy videos that might not fully make sense to you. I'm here to save your time and energy!
-
+4. **Save Time:** No more long, confusing videos. I save your time and effort!
 
 **Almost there:**
 
-Hold on tight! I'm just putting the finishing touches on my learning process. I'll be ready to assist you in no time. 🚀
+I'm finishing up my learning process. Get ready to explore with me! 🚀
+
 
 
 \n \n \n
 """
 
-@st.cache_data
-def get_avatar():
-    return Image.open("data/logo.png")
+# @st.cache_data
+# def get_user_avatar():
+#     return Image.open("data/user_avatar.png")
 
-@st.cache_data
-def get_user_avatar():
-    return Image.open("data/user_avatar.png")
+def get_avatars():
+    return Image.open("data/logo.png"), Image.open("data/user_avatar.png")
+
+
 
 def center_content(content):
     return f'<div style="display: flex; justify-content: center;">{content}</div>'
-
-
-avatar = get_avatar()
-user_avatar = get_user_avatar()
 
 
 
@@ -92,6 +88,9 @@ video_content=""
 
 #=======================================================================
 if __name__ == "__main__":
+    
+    avatar, user_avatar = get_avatars()
+    #user_avatar = Image.open("data/user_avatar.png")
 
     if 'video_dict' not in st.session_state:
         st.session_state.video_dict = {}
@@ -108,6 +107,10 @@ if __name__ == "__main__":
     
     #FOR DEBUGGING
     #st.write(st.session_state.video_dict)
+    
+    if (st.session_state.video_dict['audio_path'] == ""):
+        with open("chatlogs/current_chat.txt","w") as new_chat:
+            new_chat.write(".")
 
  
     if(st.session_state.video_dict['transcription'] != ""):
@@ -124,13 +127,12 @@ if __name__ == "__main__":
             with open("chatlogs/current_chat.txt","r") as chat:
                 history = chat.read()
             history = history.split("£")
-
             for i,item in enumerate(history):
                 text = item.split("|")
             
                 if(i%2 == 0):
                     if len(text[-1]) > 1:
-                        st.chat_message("ActionLearning",avatar=user_avatar).write(text[-1])
+                        st.chat_message("user").write(text[-1])
 
                 else:
                     st.chat_message("KLEM",avatar=avatar).write(text[-1])
@@ -141,13 +143,13 @@ if __name__ == "__main__":
             with open("chatlogs/current_chat.txt","r") as chat:
                 history = chat.read()
             history = history.split("£")
-
+            user_avatar = Image.open("data/user_avatar.png")
             for i,item in enumerate(history):
                 text = item.split("|")
             
                 if(i%2 == 0):
                     if len(text[-1]) > 1:
-                        st.chat_message("ActionLearning",avatar=user_avatar).write(text[-1])
+                        st.chat_message("user").write(text[-1])
 
                 else:
                     st.chat_message("KLEM",avatar=avatar).write(text[-1])
@@ -249,7 +251,7 @@ if __name__ == "__main__":
 
             output_name = st.session_state.video_dict['audio_name']
             data = st.session_state.video_dict['transcription']
-            output_name = output_name.replace("?","")
+            output_name = output_name.replace("?","").replace("|","")
             with open(f"transcriptions/transcription.txt", "w") as transcription:
                 transcription.write(data)    
             st.experimental_rerun()
