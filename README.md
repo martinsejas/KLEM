@@ -6,7 +6,44 @@ Repository for ActionLearning Group 4
 # Identify Your Own Voice
 
 This code uses a simple deep learning model (Sequential model) to identify whether a provided audio file is from a human or another source. It extracts the MFCC (Mel Frequency Cepstral Coefficient) features from the audio data and uses them as input to the model.
+This script is a sound classification pipeline that trains a neural network to classify audio files as either "human" or "other". The pipeline includes preprocessing steps such as silence removal and audio augmentation, as well as feature extraction, training the model, evaluating it, and saving the model for future use.
 
+1. **Model Used:** 
+The model used is a simple feed-forward neural network (also known as a multi-layer perceptron) implemented with Keras. The model has three layers: 
+    - The first layer has 100 neurons and uses the ReLU activation function.
+    - The second layer has 50 neurons and also uses the ReLU activation function.
+    - The final layer is a single neuron with a sigmoid activation function, which will output the probability that the input audio is classified as "human".
+    
+2. **Feature Extraction:**
+The script extracts four different types of features from each audio file:
+    - MFCC (Mel Frequency Cepstral Coefficients): This is a type of spectral feature that is widely used in speech and audio processing.
+    - Chroma-STFT: This represents the short-term power spectrum of sound.
+    - Spectral Contrast: This measures the difference in amplitude between peaks and valleys in a sound spectrum.
+    - Tonnetz: This is used to represent harmonic relations between different pitches.
+These features are then concatenated into a single feature vector for each audio file.
+
+3. **Data Augmentation:** 
+The script uses the Audiomentations library to augment the audio data, adding variety to the training data and helping the model generalize better. The augmentations include adding Gaussian noise, time stretching, pitch shifting, and shifting the audio.
+
+4. **Data Preparation:**
+The script reads audio files from a specified path, removes silence from the audio, optionally applies data augmentation, extracts features from the audio, and then splits the resulting feature vectors and labels into training and validation sets. The labels are also encoded as integers using sklearn's LabelEncoder.
+
+5. **Training:**
+The model is trained using the Adam optimizer and binary cross entropy loss (since this is a two-class classification problem). Early stopping is used to prevent overfitting, stopping the training if the validation loss doesn't decrease for 10 consecutive epochs.
+
+6. **Evaluation:**
+After training, the model is evaluated on the validation set, producing a confusion matrix and classification report (which includes precision, recall, and f1-score for each class, as well as overall accuracy).
+
+7. **Prediction:**
+The script includes a function to use the trained model to classify a single audio file.
+
+8. **Saving the Model and Label Encoder:**
+The trained model and the label encoder (used to convert between class labels and integers) are saved to disk using Keras' model saving functionality and joblib, respectively.
+
+In terms of how the code works, the logic flows from data loading, augmentation and feature extraction, through to data splitting, model creation, training, evaluation, and finally saving.
+
+
+The model uses the trained weights to make predictions based on the features extracted from new, unseen audio data. For instance, if you have a new audio file and you want to classify it as "human" or "other"
 ## Requirements
 - Python 3.6 or above
 - Keras 2.4.3 or above
