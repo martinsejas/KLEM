@@ -90,3 +90,17 @@ After training, the model was evaluated on a validation set. The results are as 
 - Model Loss: 0.22
 
 
+
+# Noise Detection System
+This project consists of a noise detection system, implemented using Python and Keras. The goal is to predict whether an audio file is 'clean' or contains 'noise'. This classification problem is approached using a neural network which takes as input the MFCCs (Mel Frequency Cepstral Coefficients) of the audio files.
+
+# System Requirements
+To run this project, you'll need to have the following libraries installed:
+
+Python 3.6 or above
+librosa
+numpy
+Keras
+scikit-learn
+joblib
+
