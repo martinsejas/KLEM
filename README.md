@@ -104,3 +104,20 @@ Keras
 scikit-learn
 joblib
 
+How to Run the Code
+To run the code, simply execute the python script. This will:
+
+Extract MFCCs from each audio file in the dataset.
+Split the dataset into a training set and a validation set.
+Train the model using the training set and evaluate it using the validation set.
+Output the classification report and confusion matrix for the validation set.
+Use the trained model to predict the class of an audio file.
+Save the model and label encoder for future use.
+Model
+The model is a simple feed-forward neural network with two hidden layers, and it uses binary cross entropy as the loss function. The model is saved as ./model-nd/model.h5.
+
+Label Encoder
+The Label Encoder is used to encode the classes into integers. It is saved as ./model-nd/label_encoder.joblib.
+
+Predictions
+You can use the trained model to make predictions on your audio files. Ensure that your audio file is in the same directory as the script. If not, update the audio_file_path in the script.
