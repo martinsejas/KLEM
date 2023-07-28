@@ -170,7 +170,7 @@ if uploaded_file is not None:
             
             y_e, sr = librosa.load("data/clean.wav")
             
-            st.subheader("Visualizations The Cleaned Audio vs Origianl Audio")
+            st.subheader("Visualizations The Cleaned Audio vs Original Audio")
             with st.expander("Click to see the comparison"):
                 st.write("Original Audio")
                 V.show_waveform(y_o/max(y_o),sr, color='blue')
