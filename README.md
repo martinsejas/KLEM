@@ -121,3 +121,24 @@ The Label Encoder is used to encode the classes into integers. It is saved as ./
 
 Predictions
 You can use the trained model to make predictions on your audio files. Ensure that your audio file is in the same directory as the script. If not, update the audio_file_path in the script.
+
+Model Performance
+The model performance on validation data is as follows:
+
+89/89 [==============================] - 0s 2ms/step
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.94      0.89      0.92      1065
+           1       0.94      0.97      0.95      1773
+
+    accuracy                           0.94      2838
+   macro avg       0.94      0.93      0.93      2838
+weighted avg       0.94      0.94      0.94      2838
+
+Confusion Matrix:
+[[ 950  115]
+ [  58 1715]]
+
+Test accuracy: 93.90
