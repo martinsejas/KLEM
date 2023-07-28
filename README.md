@@ -3,7 +3,7 @@
 Repository for ActionLearning Group 4
 
 
-# Identify Your Own Voice
+# Speech Detection
 
 This code uses a simple deep learning model (Sequential model) to identify whether a provided audio file is from a human or another source. It extracts the MFCC (Mel Frequency Cepstral Coefficient) features from the audio data and uses them as input to the model.
 This script is a sound classification pipeline that trains a neural network to classify audio files as either "human" or "other". The pipeline includes preprocessing steps such as silence removal and audio augmentation, as well as feature extraction, training the model, evaluating it, and saving the model for future use.
