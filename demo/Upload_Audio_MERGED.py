@@ -4,7 +4,8 @@ from speechbrain.pretrained import SepformerSeparation as separator
 import librosa
 import speech_recognition as speech_recon
 import Visualization as V
-
+# import requests
+# import utility
 
 
 DATA_PATH="data/"
@@ -45,6 +46,7 @@ if audio_file is not None:
     
     
     sf.write("data/clean.wav",enhanced_data,samplerate=8000)
+    #sf.write("data/clean.wav",enhanced_data_resampled,samplerate=16000)
     st.audio("data/clean.wav")
     
     y_e, sr = librosa.load("data/clean.wav")
@@ -57,7 +59,30 @@ if audio_file is not None:
         # set the color differently
         V.show_waveform(y_e,sr, color='red')
     
-
+    
+    # API_URL_TRANS = "https://api-inference.huggingface.co/models/Helsinki-NLP/opus-mt-en-fr"
+    # API_TOKEN = utility.API_TOKEN
+    # headers = {"Authorization": f"Bearer {API_TOKEN}"}
+    # def query_translation(payload):
+    #     response = requests.post(API_URL_TRANS, headers=headers, json=payload)
+    #     return response.json()
     
     
+    st.subheader("Transcription")
+    r = speech_recon.Recognizer()
 
+    with speech_recon.AudioFile("data/clean.wav") as source:
+        audio_text = r.listen(source)
+        
+        with st.spinner("Transcribing..."):
+            final_text = r.recognize_google(audio_data=audio_text)
+        
+        st.write(final_text)
+        
+        # st.subheader("Translation of the transcription to French")
+        # output = query_translation({"inputs": final_text})
+        # translation = output[0]['translation_text']
+        # st.write(translation)
+        
+        # with open(f"translation/{audio_file.name}.txt", 'w') as f:
+        #     f.write(translation)
