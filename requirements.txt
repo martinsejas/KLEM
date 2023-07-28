@@ -9,6 +9,7 @@ keyboard==0.13.5
 transformers==4.31.0
 matplotlib==3.7.2
 matplotlib-inline==0.1.6
-usage: openai [-h] [-V] [-v] [-b API_BASE] [-k API_KEY] [-p PROXY [PROXY ...]] [-o ORGANIZATION] {api,tools,wandb} ...  positional arguments: {api,tools,wandb} api Direct API calls tools Client side tools for convenience wandb Logging with Weights & Biases  options: -h, --help show this help message and exit -V, --version show program's version number and exit -v, --verbose Set verbosity. -b API_BASE, --api-base API_BASE What API base url to use. -k API_KEY, --api-key API_KEY What API key to use. -p PROXY [PROXY ...], --proxy PROXY [PROXY ...] What proxy to use. -o ORGANIZATION, --organization ORGANIZATION Which organization to run as (will use your default organization if not specified)
+openai
 keras==2.13.1
 audiomentations==0.31.0
+tensorflow
