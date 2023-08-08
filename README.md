@@ -48,6 +48,7 @@ The model uses the trained weights to make predictions based on the features ext
 - Python 3.6 or above
 - Keras 2.4.3 or above
 - Librosa 0.8.0 or above
+- FFmpeg 6.0 or above
 
 ## How To Run
 1. Clone the repository to your local machine.
