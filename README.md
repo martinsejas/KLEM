@@ -6,7 +6,7 @@ KLEM works by extracting the audio of YouTube video, segmenting it, automaticall
 
 The project is split in two parts. KLEM's interface in a chatbot format was made in Streamlit, as well as the backend which powers the AI models and the video segmentation, and transcription. 
 
-You can find For a full live demonstration of KLEM here! (click to watch the video)
+You can find For a full live demonstration of KLEM here! (click the image below to watch the video)
 
 [![Introducing KLEM - The Revolutionary Video Learning AI!](https://img.youtube.com/vi/MHo-HREKyTk/0.jpg)](https://www.youtube.com/watch?v=MHo-HREKyTk)
 
