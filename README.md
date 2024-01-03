@@ -1,6 +1,14 @@
-# ActionLearningAIS4
+# KLEM
 
-Repository for ActionLearning Group 4
+KLEM is a Generative AI that processes YouTube videos in real-time and provides in-depth explanations, context, and actionable items from these videos.
+
+KLEM works by extracting the audio of YouTube video, segmenting it, automatically identifying if the segment has human speech  for transcription by our Deep Learning model, and transcribing it in real time by parallelizing and processing each segment simultaneously, allowing blazingly fast transcription. Additionally, the transcription is prompt engineered into Generative AI, such as GPT 4 allowing the user to speak to KLEM and learn from the video at a much faster speed than watching it. 
+
+The project is split in two parts. KLEM's interface in a chatbot format was made in Streamlit, as well as the backend which powers the AI models and the video segmentation, and transcription. 
+
+You can find For a full live demonstration of KLEM here! (click to watch the video)
+
+[![Introducing KLEM - The Revolutionary Video Learning AI!](https://img.youtube.com/vi/MHo-HREKyTk/0.jpg)](https://www.youtube.com/watch?v=MHo-HREKyTk)
 
 
 # Speech Detection
