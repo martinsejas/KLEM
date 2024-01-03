@@ -11,7 +11,7 @@ from PIL import Image
 
 #if session storage is empty get transcription and write to a file, and get youtube video
 # if not act normal
-openai.api_key = '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'
+openai.api_key = "Removed as repository is public"
 
 
 def send_to_gpt(text):
